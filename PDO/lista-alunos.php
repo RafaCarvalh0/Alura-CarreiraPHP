@@ -12,9 +12,11 @@ $studentDataList = $statement->fetchAll(PDO::FETCH_ASSOC);
 $studentList = [];
 
 foreach ($studentDataList as $studentData) {
+    $name = $studentData['name'] ?? 'Sem Nome';
+    
     $studentList[] = new Student(
         $studentData['id'],
-        $studentData['name'],
+        $name,
         new \DateTimeImmutable($studentData['birth_date'])
     );
 }

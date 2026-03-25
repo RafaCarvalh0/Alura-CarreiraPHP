@@ -7,6 +7,9 @@
     $produtosRepositorio = new ProdutoRepositorio($pdo);
     $dadosCafe = $produtosRepositorio->opcoesCafe();
     $dadosAlmoco = $produtosRepositorio->opcoesAlmoco();
+
+
+
 ?>
 
 <!doctype html>

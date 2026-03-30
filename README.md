@@ -8,6 +8,8 @@ Este repositório foi criado com o objetivo de organizar alguns cursos da Alura 
 
 ```composer install```
 
+```composer update```
+
 ```npm install```
 
 ### 2. Configuração de Ambiente

@@ -10,6 +10,7 @@ use App\Repositories\SeriesRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class SeriesController extends Controller
 {
@@ -34,6 +35,8 @@ class SeriesController extends Controller
 
     public function store(SeriesFormRequest $request)
     {
+        $coverPath = $request->file('cover')->store('series_covers', 'public');
+        $request->merge(['coverPath' => $coverPath]);
         $serie = $this->repository->add($request);
         \App\Events\SeriesCreated::dispatch(
             $serie->nome,

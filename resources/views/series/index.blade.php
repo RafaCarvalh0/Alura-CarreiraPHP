@@ -7,11 +7,13 @@
         @foreach ($series as $serie)
         <li class="list-group-item d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center">
-                <img class="me-3" src="{{ asset('storage/' . $serie->cover) }}"
-                    width="100"
-                    alt="Capa da série {!! $serie->nome !!}"
-                    class="img-fluid me-2"
-                >
+                @if ($serie->cover)
+                    <img src="{{ asset('storage/' . $serie->cover) }}"
+                        width="100"
+                        alt="Capa da série {!! $serie->nome !!}"
+                        class="img-fluid me-3"
+                    >
+                @endif
 
                 @auth <a href="{{ route('seasons.index', $serie->id) }}"> @endauth
                     {{ $serie->nome }}

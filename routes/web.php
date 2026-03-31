@@ -22,12 +22,16 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 Route::get('/email', function () {
-    return new \App\Mail\SeriesCreated(
+    $email = new \App\Mail\SeriesCreated(
         'Série de teste',
         1,
         5,
         10,
     );
+
+    \Illuminate\Support\Facades\Mail::to('nome@email.com')->send($email);
+
+    return 'E-mail enviado com sucesso!';
 });
 
 require __DIR__ . '/auth.php';

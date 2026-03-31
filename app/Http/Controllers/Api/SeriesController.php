@@ -50,10 +50,18 @@ class SeriesController extends Controller
         return $series;
     }
 
-    public function destroy(int $series, Authenticatable $user)
-    {
-        dd($user->tokenCan('is_admin'));
-        Series::destroy($series);
-        return response()->noContent();
+    public function destroy(int $series, Request $request)
+{
+    $user = $request->user();
+
+    if (!$user || !$user->tokenCan('is_admin')) {
+        return response()->json([
+            'message' => 'Unauthorized'
+        ], 403);
     }
+
+    Series::destroy($series);
+
+    return response()->noContent();
+}
 }

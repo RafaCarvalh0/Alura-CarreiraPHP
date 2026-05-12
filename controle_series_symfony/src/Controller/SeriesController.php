@@ -2,37 +2,46 @@
 
 namespace App\Controller;
 
+use App\Entity\Series;
+use App\Repository\SeriesRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class SeriesController extends AbstractController
 {
+    public function __construct(private SeriesRepository $seriesRepository, private EntityManagerInterface $entityManager)
+    {
+    }
+
     #[Route('/series', name: 'app_series', methods: ['GET'])]
     public function index(): Response
     {
-        $seriesList = [
-            'Lost',
-            'Grey\'s Anatomy',
-            'Loki',
-            'Suits',
-        ];
-
-        $html = '<ul>';
-        foreach ($seriesList as $series) {
-            $html .= '<li>' . $series . '</li>';
-        }
-        $html .= '</ul>';
+        $seriesList = $this->seriesRepository->findAll();
 
         return $this->render('series/index.html.twig', [
             'seriesList' => $seriesList,
         ]);
     }
 
-    #[Route('/series/create', methods: ['GET'])]
+    #[Route('/series/create', name: 'app_add_series_form', methods: ['GET'])]
     public function addSeriesForm(): Response
     {
         return $this->render('series/form.html.twig');
+    }
+
+    #[Route('/series/create', name: 'app_add_series', methods: ['POST'])]
+    public function addSeries(Request $request): Response
+    {
+        $seriesName = $request->request->get('name');
+        $series = new Series();
+        $series->setName($seriesName);
+
+        $this->entityManager->persist($series);
+        $this->entityManager->flush();
+
+        return $this->redirectToRoute('app_series');
     }
 }

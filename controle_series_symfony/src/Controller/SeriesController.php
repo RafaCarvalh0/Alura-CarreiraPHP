@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SeriesController extends AbstractController
 {
-    #[Route('/series', name: 'app_series')]
+    #[Route('/series', name: 'app_series', methods: ['GET'])]
     public function index(): Response
     {
         $seriesList = [
@@ -25,10 +25,14 @@ class SeriesController extends AbstractController
         }
         $html .= '</ul>';
 
-        return new JsonResponse($seriesList);
-
         return $this->render('series/index.html.twig', [
-            'controller_name' => 'SeriesController',
+            'seriesList' => $seriesList,
         ]);
+    }
+
+    #[Route('/series/create', methods: ['GET'])]
+    public function addSeriesForm(): Response
+    {
+        return $this->render('series/form.html.twig');
     }
 }

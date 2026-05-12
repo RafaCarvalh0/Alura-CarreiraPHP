@@ -9,12 +9,13 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <h1>Listagem de séries</h1>
 
-    This friendly message is coming from:
+    <a href="/series/create">Adicionar</a>
     <ul>
-        <li>Your controller at <code>src/Controller/SeriesController.php</code></li>
-        <li>Your template at <code>templates/series/index.html.twig</code></li>
+        {% for series in seriesList %}
+            <li>{{series}}</li>
+        {% endfor %}
     </ul>
 </div>
 {% endblock %}
